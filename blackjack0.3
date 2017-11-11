@@ -1,0 +1,105 @@
+package personal_projects;
+import java.util.*;
+
+public class blackjackbeta3 {
+    public static void main(String args[]){   
+        boolean playagain = true;
+        boolean bust = false;
+        int winner = 0;
+        int max = 0;
+        int sum = 0;
+        int players = 0;
+        int pot = 0;
+        int money = 0;
+        int bet = 0;
+        String play = "";
+        String hns = "";
+        Scanner input = new Scanner(System.in);
+        Random random = new Random();
+
+        System.out.println("Welcome to Blackjack!");
+        System.out.println("How many players? ");
+        players = input.nextInt();
+        while (playagain == true){
+            for(int i = 0; i < players; i++){
+                money = 10;
+                bust = false;
+                bet = 0;
+                sum = 0;
+                System.out.println("\nPlayer " + (i+1) + "'s turn begins");
+                System.out.println("You have: $" + money);
+                System.out.println("How much will you bet? \n(minimum is $3) ");
+
+                while (bet < 3){
+                    bet = input.nextInt();
+                    if (bet > 2){
+                        break;
+                    } else {
+
+                        System.out.println("Not enough money down!");  
+
+                    }
+                }
+                money = money - bet;
+                pot = pot + bet; 
+                System.out.println("\nThe pot is now : " + pot);
+
+                System.out.println("Here are your first two cards");
+                for(int j = 0; j<2; j++){
+                    int rnd = random.nextInt(11) + 1;
+                    sum = sum + rnd;
+                    System.out.println(rnd);
+                }
+                System.out.println("Your sum is: " + sum);
+
+                while(sum < 22 ){
+                    System.out.println(" Will You hit or stand?" );
+                    hns = input.nextLine();
+                    if (hns.equals("h")){
+                        int rnd = random.nextInt(11) + 1;
+                        sum = sum + rnd;
+                        System.out.println(rnd);
+                        System.out.println("Your sum is now: " + sum);
+                    }
+                    if (hns.equals("s")){
+                        break;
+                    }
+                } 
+
+                if (sum > 21){
+                    bust = true;
+                }
+                if (sum > max && bust == false){
+                    max = sum;
+                    winner = i+1;
+                }
+
+                System.out.println("Player " + (i+1) + "'s total sum is: " + sum);
+                if (bust == true){
+                    System.out.println("Player " + (i+1) + " has busted");
+                }
+
+                System.out.println("Player " + (i+1) + " turn ends" );
+            }
+            System.out.println('\u000C');
+            if(winner !=0){
+                System.out.println("\nthe winner is: Player " + winner);
+                System.out.println("player " + winner + " gets " + "$" + pot);
+            }else{
+
+                System.out.println("Dealer wins >:( ");
+            }
+            System.out.println("\nPlay again?\n[y]yes [n]no");
+            play = input.nextLine();
+            if(play.equals("y")){
+                playagain = true;   
+
+            }else if(play.equals("n")){
+                break;
+            }else if(!play.equals("y") || !play.equals("n")) {
+                System.out.print("Invalid answer!");
+            }
+            System.out.println('\u000C');
+        }
+    }
+}
